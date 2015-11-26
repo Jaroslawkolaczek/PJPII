@@ -62,6 +62,7 @@ int main(){
 			int poz_y2 = 300;
 			int counter = 0;
 			const int FPS = 60;
+			bool redraw = true;
 			if (!al_init()){
 				fprintf(stderr, "Failed to initialize Allegro.\n");
 				return -1;
@@ -80,7 +81,7 @@ int main(){
 				fprintf(stderr, "Failed to create display.\n");
 				return -1;
 			}
-			ALLEGRO_TIMER *czas = NULL;
+			ALLEGRO_TIMER *czas = al_create_timer(1/60.0);
 			czas = al_create_timer(1.0 / FPS);
 			ALLEGRO_FONT *font = al_load_ttf_font("comic.ttf", 12, 0);
 			if (!font){
@@ -115,11 +116,12 @@ int main(){
 			{			
 				ALLEGRO_EVENT ev;
 
-				al_draw_bitmap(tlo, 0, 0, 0);
-				al_flip_display();
-				al_clear_to_color(al_map_rgb(0, 0, 0));
+				
+					al_draw_bitmap(tlo, 0, 0, 0);
+					al_flip_display();
+					al_clear_to_color(al_map_rgb(0, 0, 0));
 
-				al_wait_for_event(event_queue, &ev);
+					al_wait_for_event(event_queue, &ev);
 
 					al_draw_bitmap(czolk, poz_x, poz_y, 0);
 					al_flip_display();
@@ -179,6 +181,7 @@ int main(){
 			al_flip_display();
 			al_destroy_event_queue(event_queue);
 			al_destroy_display(display);
+			al_destroy_timer(czas);
 
 			return 0;
 		}
