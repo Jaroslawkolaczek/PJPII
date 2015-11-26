@@ -82,8 +82,7 @@ int main(){
 			}
 			ALLEGRO_TIMER *czas = NULL;
 			czas = al_create_timer(1.0 / FPS);
-			ALLEGRO_FONT *font = al_load_ttf_font("comic.ttf", 36, 0);
-			ALLEGRO_FONT *font2 = al_load_ttf_font("comic.ttf", 12, 0);
+			ALLEGRO_FONT *font = al_load_ttf_font("comic.ttf", 12, 0);
 			if (!font){
 				fprintf(stderr, "Could not load 'comic.ttf'.\n");
 				return -1;
@@ -98,6 +97,7 @@ int main(){
 			al_register_event_source(event_queue, al_get_keyboard_event_source());
 			al_register_event_source(event_queue, al_get_timer_event_source(czas));
 			al_start_timer(czas);
+
 			czolk = al_load_bitmap("czolk.bmp");
 			al_convert_mask_to_alpha(czolk, al_map_rgb(255, 255, 255));
 			czolk2 = al_load_bitmap("czolk2.bmp");
@@ -105,24 +105,33 @@ int main(){
 			tlo = al_load_bitmap("tlo.bmp");
 			al_convert_mask_to_alpha(tlo, al_map_rgb(255, 255, 255));
 
+			
+			
+
+			
+			
 		
 			while (!done)
 			{			
+				ALLEGRO_EVENT ev;
+
+				al_draw_bitmap(tlo, 0, 0, 0);
+				al_flip_display();
+				al_clear_to_color(al_map_rgb(0, 0, 0));
+
+				al_wait_for_event(event_queue, &ev);
 
 					al_draw_bitmap(czolk, poz_x, poz_y, 0);
 					al_flip_display();
 					al_clear_to_color(al_map_rgb(0, 0, 0));
-					ALLEGRO_EVENT ev;
+					
 					
 					al_wait_for_event(event_queue, &ev);
-					al_draw_textf(font2, al_map_rgb(0, 255, 0), 50, 5, ALLEGRO_ALIGN_CENTRE, "Odswiezanie: %i", counter);
+					
 
-					al_draw_bitmap(tlo, 0, 0, 0);
-					al_flip_display();
-					al_clear_to_color(al_map_rgb(0, 0, 0));
-
-					al_wait_for_event(event_queue, &ev);
-					al_draw_textf(font2, al_map_rgb(0, 255, 0), 50, 5, ALLEGRO_ALIGN_CENTRE, "Odswiezanie: %i", counter);
+					
+					
+					
 					if (ALLEGRO_EVENT_KEY_UP && ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
 						done = true;
 					if (ev.type == ALLEGRO_EVENT_KEY_DOWN){
@@ -144,7 +153,7 @@ int main(){
 					al_clear_to_color(al_map_rgb(0, 0, 0));
 					
 					al_wait_for_event(event_queue, &ev);
-					al_draw_textf(font2, al_map_rgb(0, 255, 0), 50, 5, ALLEGRO_ALIGN_CENTRE, "Odswiezanie: %i", counter);
+					al_draw_textf(font, al_map_rgb(0, 255, 0), 50, 5, ALLEGRO_ALIGN_CENTRE, "Odswiezanie: %i", counter);
 					if (ALLEGRO_EVENT_KEY_UP && ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
 						done = true;
 					if (ev.type == ALLEGRO_EVENT_KEY_DOWN){
@@ -166,6 +175,7 @@ int main(){
 					counter++;
 				}
 						
+			
 			al_flip_display();
 			al_destroy_event_queue(event_queue);
 			al_destroy_display(display);
